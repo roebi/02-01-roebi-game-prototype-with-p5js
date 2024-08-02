@@ -6,6 +6,7 @@
 let oneToOneSquareAspectRatioFrameSize = 1080
 let dim1920 = 1920
 let dim1080 = 1080
+let oneToOneSquareAspectRatioFrameSize = dim1080
 
 // preload assets, i.e. images and sounds
 function preload() {
