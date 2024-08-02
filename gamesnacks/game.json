@@ -1,0 +1,87 @@
+{
+  "name": "roebi game",
+  "version": "1.0",
+  "description": "The roebi game",
+  "genres": ["Puzzle"],
+  "developer": {
+    "name": "Robert Halter",
+    "logo": [
+      {
+        "size": {
+          "width": 512,
+          "height": 512
+        },
+        "src": "images/developer-logo-512.png"
+      },
+      {
+        "size": {
+          "width": 256,
+          "height": 256
+        },
+        "src": "images/developer-logo-256.png"
+      },
+      {
+        "size": {
+          "width": 128,
+          "height": 128
+        },
+        "src": "images/developer-logo-128.png"
+      }
+    ]
+  },
+  "marketingAssets": {
+    "horizontalBanners": [
+      {
+        "size": {
+          "width": 1920,
+          "height": 1080
+        },
+        "src": "images/roebigame-horizontal-banner.png"
+      }
+    ],
+    "verticalBanners": [
+      {
+        "size": {
+          "width": 1080,
+          "height": 1920
+        },
+        "src": "images/roebigame-tall-banner.png"
+      }
+    ],
+    "screenshots": [
+      {
+        "size": {
+          "height": 1920,
+          "width": 1080
+        },
+        "src": "images/roebigame-screenshot1.png"
+      },
+      {
+        "size": {
+          "height": 1920,
+          "width": 1080
+        },
+        "src": "images/roebigame-screenshot2.png"
+      },
+      {
+        "size": {
+          "height": 1920,
+          "width": 1080
+        },
+        "src": "images/roebigame-screenshot3.png"
+      }
+    ],
+    "gameIcons": [
+      {
+        "size": {
+          "width": 512,
+          "height": 512
+        },
+        "src": "images/roebigame-icon.png"
+      }
+    ]
+  },
+  "entrypoint": "index.html",
+  "files": ["src/**"],
+  "orientation": "Portrait"
+}
