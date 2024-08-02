@@ -3,7 +3,6 @@
 
 // define variables
 // let colorem = ['background.jpg']
-let oneToOneSquareAspectRatioFrameSize = 1080
 let dim1920 = 1920
 let dim1080 = 1080
 let oneToOneSquareAspectRatioFrameSize = dim1080
@@ -17,7 +16,8 @@ function preload() {
 // setup the canvas, define fonts, generate initial items, start run loop
 function setup() {
   createCanvas(oneToOneSquareAspectRatioFrameSize, oneToOneSquareAspectRatioFrameSize);
-  // textFont('A Font')
+  // this current not work:
+  // textFont('Noto Sans Display')
 }
 
 // draw all new states, runs about 60 times a second
@@ -28,7 +28,7 @@ function draw() {
   fill('yellow') // default white
   stroke('orange') // default black
   strokeWeight(20)
-  circle(550, 50, 100)
+  circle(550, 150, 100)
   // ellipse()
   // square()
   // rect()
@@ -39,7 +39,7 @@ function draw() {
   // arc()
   // textSize(10)
   // text('text', 80, 100)
-  // text('mouse', mouseX, mouseY)
+  text('mouse on x: ' + mouseX + ', y: ' + mouseY, mouseX, mouseY)
   // width: The width of the canvas
   // height: The height of the canvas
   // pmouseX: The previous x-coordinate of the mouse
