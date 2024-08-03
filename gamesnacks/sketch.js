@@ -5,7 +5,8 @@ let tileWidth = boardSize / cols;
 let tileHeight = boardSize / rows;
 let grid = [];
 let playerScore = 0;
-let showBar = false; // Flag to control the display of the bar
+let currentRow = 0; // Track the current row for the bar
+let pressedTiles = []; // Array to store pressed tiles
 
 function setup() {
   createCanvas(720, 1280);
@@ -19,6 +20,8 @@ function initializeGrid() {
       grid[i][j] = floor(random(1, 10));
     }
   }
+  currentRow = 0;
+  pressedTiles = [];
 }
 
 function draw() {
@@ -45,10 +48,14 @@ function draw() {
     text(rows - j, 35, 60 + j * tileHeight + tileHeight / 2);
   }
   
-  // Draw grid with random numbers
+  // Draw grid with random numbers and color pressed tiles
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
-      fill(255);
+      if (pressedTiles.some(tile => tile.col === i && tile.row === j)) {
+        fill(100, 200, 100); // Green color for pressed tiles
+      } else {
+        fill(255);
+      }
       rect(60 + i * tileWidth, 60 + j * tileHeight, tileWidth, tileHeight);
       fill(0);
       textSize(24);
@@ -57,17 +64,17 @@ function draw() {
     }
   }
   
-  // Draw transparent bar with frame over the first (bottom) row if needed
-  if (showBar) {
+  // Draw transparent bar with frame over the current row
+  if (currentRow < rows) {
     // Draw the transparent bar
     fill(255, 255, 0, 100); // Yellow with 100/255 alpha (semi-transparent)
-    rect(35, 60 + boardSize - tileHeight, boardSize + 45, tileHeight);
+    rect(35, 60 + boardSize - (currentRow + 1) * tileHeight, boardSize + 45, tileHeight);
     
     // Draw the frame around the bar
     noFill();
     stroke(200, 200, 0); // Darker yellow for the frame
     strokeWeight(2);
-    rect(35, 60 + boardSize - tileHeight, boardSize + 45, tileHeight);
+    rect(35, 60 + boardSize - (currentRow + 1) * tileHeight, boardSize + 45, tileHeight);
     noStroke(); // Reset stroke
   }
   
@@ -107,18 +114,23 @@ function mousePressed() {
   if (mouseX >= 60 && mouseX <= 60 + boardSize && mouseY >= 60 && mouseY <= 60 + boardSize) {
     let col = floor((mouseX - 60) / tileWidth);
     let row = floor((mouseY - 60) / tileHeight);
-    playerScore += grid[col][row];
-    grid[col][row] = floor(random(1, 10));
+    
+    // Check if the pressed tile is in the current row
+    if (row === rows - currentRow - 1 && !pressedTiles.some(tile => tile.col === col && tile.row === row)) {
+      playerScore += grid[col][row];
+      pressedTiles.push({col: col, row: row});
+      
+      // Move the bar to the next row
+      currentRow++;
+    }
   }
   
   if (mouseX >= 60 && mouseX <= 260 && mouseY >= 700 && mouseY <= 760) {
     initializeGrid();
     playerScore = 0;
-    showBar = true; // Show the bar when New Game is pressed
   }
   
   if (mouseX >= 460 && mouseX <= 660 && mouseY >= 700 && mouseY <= 760) {
     playerScore = 0;
-    showBar = true; // Show the bar when Reset Score is pressed
   }
 }
