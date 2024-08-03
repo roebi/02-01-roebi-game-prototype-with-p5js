@@ -28,6 +28,15 @@ function draw() {
   fill(200);
   rect(60, 60, boardSize, boardSize);
   
+  // Draw vertical lines
+  stroke(0);  // Set line color to black
+  strokeWeight(2);  // Set line thickness
+  line(40, 60, 40, 60 + boardSize);  // Left line
+  line(boardSize + 80, 60, boardSize + 80, 60 + boardSize);  // Right line
+  
+  // Reset stroke settings
+  noStroke();
+  
   // Draw grid with random numbers
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
@@ -76,7 +85,7 @@ function mousePressed() {
     playerScore += grid[col][row];
     
     // Reset the tile's value
-    // grid[col][row] = floor(random(1, 10));
+    grid[col][row] = floor(random(1, 10));
   }
   
   // Check if the New Game button was clicked
