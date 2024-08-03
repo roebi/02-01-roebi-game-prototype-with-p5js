@@ -12,7 +12,6 @@ function setup() {
 }
 
 function initializeGrid() {
-  // Initialize the grid with random numbers between 1 and 9
   for (let i = 0; i < cols; i++) {
     grid[i] = [];
     for (let j = 0; j < rows; j++) {
@@ -29,13 +28,21 @@ function draw() {
   rect(60, 60, boardSize, boardSize);
   
   // Draw vertical lines
-  stroke(0);  // Set line color to black
-  strokeWeight(2);  // Set line thickness
+  stroke(0);
+  strokeWeight(2);
   line(40, 60, 40, 60 + boardSize);  // Left line
   line(boardSize + 80, 60, boardSize + 80, 60 + boardSize);  // Right line
   
   // Reset stroke settings
   noStroke();
+  
+  // Draw row numbers
+  textSize(18);
+  fill(0);
+  textAlign(RIGHT, CENTER);
+  for (let j = 0; j < rows; j++) {
+    text(rows - j, 35, 60 + j * tileHeight + tileHeight / 2);
+  }
   
   // Draw grid with random numbers
   for (let i = 0; i < cols; i++) {
@@ -82,26 +89,18 @@ function drawButton(x, y, w, h, label) {
 }
 
 function mousePressed() {
-  // Check if the click is within the game board
   if (mouseX >= 60 && mouseX <= 60 + boardSize && mouseY >= 60 && mouseY <= 60 + boardSize) {
-    // Calculate which tile was clicked
     let col = floor((mouseX - 60) / tileWidth);
     let row = floor((mouseY - 60) / tileHeight);
-    
-    // Add the tile's value to the player's score
     playerScore += grid[col][row];
-    
-    // Reset the tile's value
     grid[col][row] = floor(random(1, 10));
   }
   
-  // Check if the New Game button was clicked
   if (mouseX >= 60 && mouseX <= 260 && mouseY >= 700 && mouseY <= 760) {
     initializeGrid();
     playerScore = 0;
   }
   
-  // Check if the Reset Score button was clicked
   if (mouseX >= 460 && mouseX <= 660 && mouseY >= 700 && mouseY <= 760) {
     playerScore = 0;
   }
