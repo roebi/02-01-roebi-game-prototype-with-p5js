@@ -49,6 +49,13 @@ function draw() {
     }
   }
   
+  // Draw caret characters below each column
+  textSize(32);
+  fill(0);
+  for (let i = 0; i < cols; i++) {
+    text("^", 60 + i * tileWidth + tileWidth / 2, 60 + boardSize + 30);
+  }
+  
   // Draw UI elements
   drawButton(60, 700, 200, 60, "New Game");
   drawButton(460, 700, 200, 60, "Reset Score");
