@@ -5,6 +5,7 @@ let tileWidth = boardSize / cols;
 let tileHeight = boardSize / rows;
 let grid = [];
 let playerScore = 0;
+let highScore = 0; // Track the high score
 let currentRow = 0; // Track the current row for the bar
 let pressedTiles = []; // Array to store pressed tiles
 
@@ -95,6 +96,7 @@ function draw() {
   textAlign(LEFT, TOP);
   text("Player 1", 60, 800);
   text("Score: " + playerScore, 60, 830);
+  text("High Score: " + highScore, 60, 860);
   
   // Draw cards area
   fill(220);
@@ -122,6 +124,11 @@ function mousePressed() {
       
       // Move the bar to the next row
       currentRow++;
+      
+      // Update high score if needed
+      if (playerScore > highScore) {
+        highScore = playerScore;
+      }
     }
   }
   
