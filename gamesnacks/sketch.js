@@ -5,6 +5,7 @@ let tileWidth = boardSize / cols;
 let tileHeight = boardSize / rows;
 let grid = [];
 let playerScore = 0;
+let showBar = false; // Flag to control the display of the bar
 
 function setup() {
   createCanvas(720, 1280);
@@ -56,6 +57,20 @@ function draw() {
     }
   }
   
+  // Draw transparent bar with frame over the first (bottom) row if needed
+  if (showBar) {
+    // Draw the transparent bar
+    fill(255, 255, 0, 100); // Yellow with 100/255 alpha (semi-transparent)
+    rect(35, 60 + boardSize - tileHeight, boardSize + 45, tileHeight);
+    
+    // Draw the frame around the bar
+    noFill();
+    stroke(200, 200, 0); // Darker yellow for the frame
+    strokeWeight(2);
+    rect(35, 60 + boardSize - tileHeight, boardSize + 45, tileHeight);
+    noStroke(); // Reset stroke
+  }
+  
   // Draw caret characters below each column
   textSize(32);
   fill(0);
@@ -99,9 +114,11 @@ function mousePressed() {
   if (mouseX >= 60 && mouseX <= 260 && mouseY >= 700 && mouseY <= 760) {
     initializeGrid();
     playerScore = 0;
+    showBar = true; // Show the bar when New Game is pressed
   }
   
   if (mouseX >= 460 && mouseX <= 660 && mouseY >= 700 && mouseY <= 760) {
     playerScore = 0;
+    showBar = true; // Show the bar when Reset Score is pressed
   }
 }
