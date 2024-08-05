@@ -47,3 +47,10 @@ extend the bar size in horizontal on the left side to cover this new vertical li
 
 when a tile is pressed after the bar moved to the next row from the bottom,
 reduce the possible tiles to the tile immediately above and to the tile above the right tile and to the tile above the left tile
+
+rate the player's performance in a level based score.
+show it as a three stars rating.
+for this at start of level calculate the score of all possible paths based on the existing rules.
+calculate first a percentage performance score.
+use highest score is one hundred percent and lowest score is one percent.
+for calculating numbers of star use percentage performance divided by fifty and add one

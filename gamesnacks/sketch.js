@@ -10,7 +10,9 @@ let currentRow = 0;
 let pressedTiles = [];
 let leftMargin = 60;
 let rowNumberWidth = 25;
-let availableTiles = []; // Array to store available tiles for selection
+let availableTiles = [];
+let maxScore = 0;
+let minScore = Infinity;
 
 function setup() {
   createCanvas(720, 1280);
@@ -27,6 +29,27 @@ function initializeGrid() {
   currentRow = 0;
   pressedTiles = [];
   availableTiles = Array.from({ length: cols }, (_, i) => ({ col: i, row: rows - 1 }));
+  calculatePathScores();
+}
+
+function calculatePathScores() {
+  maxScore = 0;
+  minScore = Infinity;
+  for (let i = 0; i < cols; i++) {
+    let score = calculatePathScore(i, rows - 1, 0);
+    maxScore = max(maxScore, score);
+    minScore = min(minScore, score);
+  }
+}
+
+function calculatePathScore(col, row, currentScore) {
+  if (row < 0) return currentScore;
+  let score = currentScore + grid[col][row];
+  let scores = [score];
+  if (col > 0) scores.push(calculatePathScore(col - 1, row - 1, score));
+  if (col < cols - 1) scores.push(calculatePathScore(col + 1, row - 1, score));
+  scores.push(calculatePathScore(col, row - 1, score));
+  return max(scores);
 }
 
 function draw() {
@@ -102,10 +125,41 @@ function draw() {
   text("Score: " + playerScore, leftMargin, 830);
   text("High Score: " + highScore, leftMargin, 860);
   
+  // Draw performance rating
+  let performancePercentage = ((playerScore - minScore) / (maxScore - minScore)) * 100;
+  let stars = Math.min(3, Math.floor(performancePercentage / 50) + 1);
+  drawStars(leftMargin, 890, stars);
+  
   // Draw cards area
   fill(220);
   rect(leftMargin, 900, boardSize, 300);
   text("Cards", leftMargin, 890);
+}
+
+function drawStars(x, y, stars) {
+  for (let i = 0; i < 3; i++) {
+    if (i < stars) {
+      fill(255, 215, 0); // Gold color for filled stars
+    } else {
+      fill(200); // Gray color for empty stars
+    }
+    star(x + i * 40, y, 15, 30, 5);
+  }
+}
+
+function star(x, y, radius1, radius2, npoints) {
+  let angle = TWO_PI / npoints;
+  let halfAngle = angle / 2.0;
+  beginShape();
+  for (let a = 0; a < TWO_PI; a += angle) {
+    let sx = x + cos(a) * radius2;
+    let sy = y + sin(a) * radius2;
+    vertex(sx, sy);
+    sx = x + cos(a + halfAngle) * radius1;
+    sy = y + sin(a + halfAngle) * radius1;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
 }
 
 function drawButton(x, y, w, h, label) {
