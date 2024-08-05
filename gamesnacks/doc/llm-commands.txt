@@ -1,0 +1,47 @@
+typical layout of a mobile board game
+
+what is a typical gui resolution of a mobile phone in portrait orientation?
+
+in p5 js can you code or layout a example of a game layout?
+
+generate in this code in the gameboard a grid with 5 columns and 8 rows.
+each of the tiles should contains a random number between 1 and 9
+
+Add a function that detects when a tile has been pressed.
+Then read the value of the tile and add it to the player's score.
+Then display the new player score.
+
+replace the end turn button with a reset score button.
+When pressed, this should set the player score value to 0
+
+Replace the roll dice button with a new game button.
+This should set all tiles with new numbers when pressed
+
+Add a vertical line to the left and right of the game board that is the same length as the board.
+
+add on bottom of each column a caret character. this have to be outside the grid.
+
+add a column to the left of the left vertical line.
+The rows should be numbered in this column.
+start at the bottom with row 1
+
+when new game is pressed or reset score is pressed,
+show a bar covering the first row transparently.
+
+Instead of displaying this bar via timer, leave it displayed on the first row.
+
+add a frame to the bar
+
+the bar must completely surround the first row and its row number
+
+the first row is the bottom row. the bar must surround the first row and its row number
+
+when a tile is pressed instead of recalculating the value of the tile
+this tile should be colored and the bar should be moved to the next row from the bottom.
+
+add a highscore
+
+Add a vertical line to the left of the column of row numbers.
+the line have the same length as the board.
+extend the bar size in horizontal on the left side to cover this new vertical line.
+
