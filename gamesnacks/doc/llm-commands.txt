@@ -54,3 +54,5 @@ for this at start of level calculate the score of all possible paths based on th
 calculate first a percentage performance score.
 use highest score is one hundred percent and lowest score is one percent.
 for calculating numbers of star use percentage performance divided by fifty and add one
+
+place the three stars a little further apart, they overlap

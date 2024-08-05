@@ -137,13 +137,14 @@ function draw() {
 }
 
 function drawStars(x, y, stars) {
+  const starSpacing = 50; // Adjust the spacing between stars
   for (let i = 0; i < 3; i++) {
     if (i < stars) {
       fill(255, 215, 0); // Gold color for filled stars
     } else {
       fill(200); // Gray color for empty stars
     }
-    star(x + i * 40, y, 15, 30, 5);
+    star(x + i * starSpacing, y, 15, 30, 5);
   }
 }
 
