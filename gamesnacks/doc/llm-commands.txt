@@ -45,3 +45,5 @@ Add a vertical line to the left of the column of row numbers.
 the line have the same length as the board.
 extend the bar size in horizontal on the left side to cover this new vertical line.
 
+when a tile is pressed after the bar moved to the next row from the bottom,
+reduce the possible tiles to the tile immediately above and to the tile above the right tile and to the tile above the left tile

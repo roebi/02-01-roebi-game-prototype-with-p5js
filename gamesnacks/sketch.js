@@ -8,8 +8,9 @@ let playerScore = 0;
 let highScore = 0;
 let currentRow = 0;
 let pressedTiles = [];
-let leftMargin = 60; // Distance from left edge to start of game board
-let rowNumberWidth = 25; // Width of the area for row numbers
+let leftMargin = 60;
+let rowNumberWidth = 25;
+let availableTiles = []; // Array to store available tiles for selection
 
 function setup() {
   createCanvas(720, 1280);
@@ -25,6 +26,7 @@ function initializeGrid() {
   }
   currentRow = 0;
   pressedTiles = [];
+  availableTiles = Array.from({ length: cols }, (_, i) => ({ col: i, row: rows - 1 }));
 }
 
 function draw() {
@@ -37,9 +39,9 @@ function draw() {
   // Draw vertical lines
   stroke(0);
   strokeWeight(2);
-  line(leftMargin - rowNumberWidth, 60, leftMargin - rowNumberWidth, 60 + boardSize); // New left line
-  line(leftMargin - 1, 60, leftMargin - 1, 60 + boardSize);  // Line between row numbers and board
-  line(leftMargin + boardSize + 20, 60, leftMargin + boardSize + 20, 60 + boardSize);  // Right line
+  line(leftMargin - rowNumberWidth, 60, leftMargin - rowNumberWidth, 60 + boardSize);
+  line(leftMargin - 1, 60, leftMargin - 1, 60 + boardSize);
+  line(leftMargin + boardSize + 20, 60, leftMargin + boardSize + 20, 60 + boardSize);
   
   // Reset stroke settings
   noStroke();
@@ -52,11 +54,13 @@ function draw() {
     text(rows - j, leftMargin - 5, 60 + j * tileHeight + tileHeight / 2);
   }
   
-  // Draw grid with random numbers and color pressed tiles
+  // Draw grid with random numbers and color pressed and available tiles
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
       if (pressedTiles.some(tile => tile.col === i && tile.row === j)) {
         fill(100, 200, 100); // Green color for pressed tiles
+      } else if (availableTiles.some(tile => tile.col === i && tile.row === j)) {
+        fill(255, 255, 150); // Light yellow for available tiles
       } else {
         fill(255);
       }
@@ -70,16 +74,13 @@ function draw() {
   
   // Draw transparent bar with frame over the current row
   if (currentRow < rows) {
-    // Draw the transparent bar
-    fill(255, 255, 0, 100); // Yellow with 100/255 alpha (semi-transparent)
+    fill(255, 255, 0, 100);
     rect(leftMargin - rowNumberWidth, 60 + boardSize - (currentRow + 1) * tileHeight, boardSize + rowNumberWidth + 20, tileHeight);
-    
-    // Draw the frame around the bar
     noFill();
-    stroke(200, 200, 0); // Darker yellow for the frame
+    stroke(200, 200, 0);
     strokeWeight(2);
     rect(leftMargin - rowNumberWidth, 60 + boardSize - (currentRow + 1) * tileHeight, boardSize + rowNumberWidth + 20, tileHeight);
-    noStroke(); // Reset stroke
+    noStroke();
   }
   
   // Draw caret characters below each column
@@ -120,12 +121,20 @@ function mousePressed() {
     let col = floor((mouseX - leftMargin) / tileWidth);
     let row = floor((mouseY - 60) / tileHeight);
     
-    if (row === rows - currentRow - 1 && !pressedTiles.some(tile => tile.col === col && tile.row === row)) {
+    if (availableTiles.some(tile => tile.col === col && tile.row === row)) {
       playerScore += grid[col][row];
       pressedTiles.push({col: col, row: row});
       currentRow++;
       if (playerScore > highScore) {
         highScore = playerScore;
+      }
+      
+      // Update available tiles for the next move
+      availableTiles = [];
+      if (row > 0) {
+        availableTiles.push({col: col, row: row - 1}); // Tile directly above
+        if (col > 0) availableTiles.push({col: col - 1, row: row - 1}); // Tile above and to the left
+        if (col < cols - 1) availableTiles.push({col: col + 1, row: row - 1}); // Tile above and to the right
       }
     }
   }
