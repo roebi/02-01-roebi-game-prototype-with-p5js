@@ -26,10 +26,15 @@ function initializeGrid() {
       grid[i][j] = floor(random(1, 10));
     }
   }
+  resetLevel();
+  calculatePathScores();
+}
+
+function resetLevel() {
   currentRow = 0;
   pressedTiles = [];
   availableTiles = Array.from({ length: cols }, (_, i) => ({ col: i, row: rows - 1 }));
-  calculatePathScores();
+  playerScore = 0;
 }
 
 function calculatePathScores() {
@@ -115,7 +120,7 @@ function draw() {
   
   // Draw UI elements
   drawButton(leftMargin, 700, 200, 60, "New Game");
-  drawButton(leftMargin + 400, 700, 200, 60, "Reset Score");
+  drawButton(leftMargin + 400, 700, 200, 60, "Retry");
   
   // Draw player info
   fill(0);
@@ -196,10 +201,9 @@ function mousePressed() {
   
   if (mouseX >= leftMargin && mouseX <= leftMargin + 200 && mouseY >= 700 && mouseY <= 760) {
     initializeGrid();
-    playerScore = 0;
   }
   
   if (mouseX >= leftMargin + 400 && mouseX <= leftMargin + 600 && mouseY >= 700 && mouseY <= 760) {
-    playerScore = 0;
+    resetLevel();
   }
 }
