@@ -1,11 +1,9 @@
 let boardSize = 600;
-let cols = 5;
-let rows = 8;
-let tileWidth = boardSize / cols;
-let tileHeight = boardSize / rows;
+let cols, rows;
+let tileWidth, tileHeight;
 let grid = [];
 let playerScore = 0;
-let highScore = 0;
+let highScores = [];
 let currentRow = 0;
 let pressedTiles = [];
 let leftMargin = 60;
@@ -13,13 +11,34 @@ let rowNumberWidth = 25;
 let availableTiles = [];
 let maxScore = 0;
 let minScore = Infinity;
+let currentLevel = 0;
+let gameState = "LEVEL_SELECT"; // LEVEL_SELECT, PLAYING, LEVEL_COMPLETE
+let levels = [];
 
 function setup() {
   createCanvas(720, 1280);
-  initializeGrid();
+  initializeLevels();
+}
+
+function initializeLevels() {
+  for (let i = 3; i <= 9; i++) {
+    levels.push({
+      cols: 2,
+      rows: i,
+      highScore: 0,
+      stars: 0,
+      unlocked: i === 3
+    });
+  }
 }
 
 function initializeGrid() {
+  cols = levels[currentLevel].cols;
+  rows = levels[currentLevel].rows;
+  tileWidth = boardSize / cols;
+  tileHeight = boardSize / rows;
+  
+  grid = [];
   for (let i = 0; i < cols; i++) {
     grid[i] = [];
     for (let j = 0; j < rows; j++) {
@@ -60,6 +79,33 @@ function calculatePathScore(col, row, currentScore) {
 function draw() {
   background(240);
   
+  if (gameState === "LEVEL_SELECT") {
+    drawLevelSelect();
+  } else if (gameState === "PLAYING") {
+    drawGame();
+  } else if (gameState === "LEVEL_COMPLETE") {
+    drawLevelComplete();
+  }
+}
+
+function drawLevelSelect() {
+  textSize(32);
+  fill(0);
+  textAlign(CENTER, TOP);
+  text("Select Level", width / 2, 50);
+  
+  for (let i = levels.length - 1; i >= 0; i--) {
+    let y = height - 100 - (levels.length - 1 - i) * 120;
+    fill(levels[i].unlocked ? 200 : 100);
+    rect(width / 2 - 150, y, 300, 100, 10);
+    fill(0);
+    textSize(24);
+    text("Level " + (i + 1), width / 2, y + 30);
+    drawStars(width / 2 - 60, y + 60, levels[i].stars);
+  }
+}
+
+function drawGame() {
   // Draw game board
   fill(200);
   rect(leftMargin, 60, boardSize, boardSize);
@@ -119,30 +165,39 @@ function draw() {
   }
   
   // Draw UI elements
-  drawButton(leftMargin, 700, 200, 60, "New Game");
-  drawButton(leftMargin + 400, 700, 200, 60, "Retry");
+  drawButton(leftMargin, 700, 200, 60, "Retry");
+  drawButton(leftMargin + 400, 700, 200, 60, "Cancel");
   
   // Draw player info
   fill(0);
   textSize(24);
   textAlign(LEFT, TOP);
-  text("Player 1", leftMargin, 800);
+  text("Level " + (currentLevel + 1), leftMargin, 800);
   text("Score: " + playerScore, leftMargin, 830);
-  text("High Score: " + highScore, leftMargin, 860);
+}
+
+function drawLevelComplete() {
+  textSize(32);
+  fill(0);
+  textAlign(CENTER, TOP);
+  text("Level " + (currentLevel + 1) + " Complete!", width / 2, 50);
   
-  // Draw performance rating
   let performancePercentage = ((playerScore - minScore) / (maxScore - minScore)) * 100;
   let stars = Math.min(3, Math.floor(performancePercentage / 50) + 1);
-  drawStars(leftMargin, 890, stars);
   
-  // Draw cards area
-  fill(220);
-  rect(leftMargin, 900, boardSize, 300);
-  text("Cards", leftMargin, 890);
+  drawStars(width / 2 - 75, 150, stars);
+  
+  textSize(24);
+  text("Score: " + playerScore, width / 2, 250);
+  
+  if (stars >= 2 && currentLevel < levels.length - 1) {
+    drawButton(width / 2 - 150, 350, 300, 60, "Continue to Next Level");
+  }
+  drawButton(width / 2 - 150, 450, 300, 60, "Level Select");
 }
 
 function drawStars(x, y, stars) {
-  const starSpacing = 50; // Adjust the spacing between stars
+  const starSpacing = 50;
   for (let i = 0; i < 3; i++) {
     if (i < stars) {
       fill(255, 215, 0); // Gold color for filled stars
@@ -173,37 +228,72 @@ function drawButton(x, y, w, h, label) {
   rect(x, y, w, h, 10);
   fill(255);
   textAlign(CENTER, CENTER);
+  textSize(20);
   text(label, x + w/2, y + h/2);
 }
 
 function mousePressed() {
-  if (mouseX >= leftMargin && mouseX <= leftMargin + boardSize && mouseY >= 60 && mouseY <= 60 + boardSize) {
-    let col = floor((mouseX - leftMargin) / tileWidth);
-    let row = floor((mouseY - 60) / tileHeight);
-    
-    if (availableTiles.some(tile => tile.col === col && tile.row === row)) {
-      playerScore += grid[col][row];
-      pressedTiles.push({col: col, row: row});
-      currentRow++;
-      if (playerScore > highScore) {
-        highScore = playerScore;
-      }
-      
-      // Update available tiles for the next move
-      availableTiles = [];
-      if (row > 0) {
-        availableTiles.push({col: col, row: row - 1}); // Tile directly above
-        if (col > 0) availableTiles.push({col: col - 1, row: row - 1}); // Tile above and to the left
-        if (col < cols - 1) availableTiles.push({col: col + 1, row: row - 1}); // Tile above and to the right
+  if (gameState === "LEVEL_SELECT") {
+    for (let i = levels.length - 1; i >= 0; i--) {
+      let y = height - 100 - (levels.length - 1 - i) * 120;
+      if (mouseX > width / 2 - 150 && mouseX < width / 2 + 150 &&
+          mouseY > y && mouseY < y + 100 && levels[i].unlocked) {
+        currentLevel = i;
+        gameState = "PLAYING";
+        initializeGrid();
+        break;
       }
     }
-  }
-  
-  if (mouseX >= leftMargin && mouseX <= leftMargin + 200 && mouseY >= 700 && mouseY <= 760) {
-    initializeGrid();
-  }
-  
-  if (mouseX >= leftMargin + 400 && mouseX <= leftMargin + 600 && mouseY >= 700 && mouseY <= 760) {
-    resetLevel();
+  } else if (gameState === "PLAYING") {
+    if (mouseX >= leftMargin && mouseX <= leftMargin + boardSize && mouseY >= 60 && mouseY <= 60 + boardSize) {
+      let col = floor((mouseX - leftMargin) / tileWidth);
+      let row = floor((mouseY - 60) / tileHeight);
+      
+      if (availableTiles.some(tile => tile.col === col && tile.row === row)) {
+        playerScore += grid[col][row];
+        pressedTiles.push({col: col, row: row});
+        currentRow++;
+        
+        if (currentRow === rows) {
+          gameState = "LEVEL_COMPLETE";
+          let performancePercentage = ((playerScore - minScore) / (maxScore - minScore)) * 100;
+          let stars = Math.min(3, Math.floor(performancePercentage / 50) + 1);
+          levels[currentLevel].stars = max(levels[currentLevel].stars, stars);
+          levels[currentLevel].highScore = max(levels[currentLevel].highScore, playerScore);
+          if (currentLevel < levels.length - 1) {
+            levels[currentLevel + 1].unlocked = true;
+          }
+        } else {
+          // Update available tiles for the next move
+          availableTiles = [];
+          if (row > 0) {
+            availableTiles.push({col: col, row: row - 1}); // Tile directly above
+            if (col > 0) availableTiles.push({col: col - 1, row: row - 1}); // Tile above and to the left
+            if (col < cols - 1) availableTiles.push({col: col + 1, row: row - 1}); // Tile above and to the right
+          }
+        }
+      }
+    }
+    
+    if (mouseX >= leftMargin && mouseX <= leftMargin + 200 && mouseY >= 700 && mouseY <= 760) {
+      resetLevel();
+    }
+    
+    if (mouseX >= leftMargin + 400 && mouseX <= leftMargin + 600 && mouseY >= 700 && mouseY <= 760) {
+      gameState = "LEVEL_SELECT";
+    }
+  } else if (gameState === "LEVEL_COMPLETE") {
+    let stars = levels[currentLevel].stars;
+    if (stars >= 2 && currentLevel < levels.length - 1 &&
+        mouseX > width / 2 - 150 && mouseX < width / 2 + 150 &&
+        mouseY > 350 && mouseY < 410) {
+      currentLevel++;
+      gameState = "PLAYING";
+      initializeGrid();
+    }
+    if (mouseX > width / 2 - 150 && mouseX < width / 2 + 150 &&
+        mouseY > 450 && mouseY < 510) {
+      gameState = "LEVEL_SELECT";
+    }
   }
 }

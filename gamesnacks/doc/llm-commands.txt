@@ -59,3 +59,16 @@ place the three stars a little further apart, they overlap
 
 replace the reset score button with a retry button.
 When pressed, this restart this level without changing the tile values.
+
+add a game level system. show all the available levels with its three stars in a own level page an.
+this levels have for the grid each two columns and the rows count from three to nine.
+start the game with showing the level page.
+show the levels as a list. start with first level on bottom.
+At the beginning only the first level is enabled to select.
+When the player selects this level, the level page disappears and this level with the grid is displayed.
+In this level the player can press the cancel button. Then he will return to the level page.
+now the player plays this level.
+A level is finished when the player reaches the last row and so that the player performance for this level was displayed.
+If the player has completed the current level with at least two stars, he has the option to go directly to the next level via the continue button.
+Otherwise via a button levels , if this is pressed the level page is shown.
+
