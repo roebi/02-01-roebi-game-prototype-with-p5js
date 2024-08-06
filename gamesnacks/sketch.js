@@ -329,6 +329,7 @@ function mousePressed() {
       if (mouseX > width / 2 - 150 && mouseX < width / 2 + 150 &&
           mouseY > y && mouseY < y + levelHeight - 5 && group[levelIndex].unlocked) {
         currentLevel = levelGroups.slice(0, currentGroup).reduce((acc, g) => acc + g.length, 0) + levelIndex;
+        // No need to update currentGroup here as it's already correct
         gameState = "PLAYING";
         initializeGrid();
         return;
@@ -369,8 +370,19 @@ function mousePressed() {
       resetLevel();
     }
     
+    // Handle the cancel button
     if (mouseX >= leftMargin + 400 && mouseX <= leftMargin + 600 && mouseY >= 700 && mouseY <= 760) {
       gameState = "LEVEL_SELECT";
+      // Update currentGroup based on currentLevel
+      currentGroup = 0;
+      let levelCount = 0;
+      for (let i = 0; i < levelGroups.length; i++) {
+        if (currentLevel >= levelCount && currentLevel < levelCount + levelGroups[i].length) {
+          currentGroup = i;
+          break;
+        }
+        levelCount += levelGroups[i].length;
+      }
     }
   } else if (gameState === "LEVEL_COMPLETE") {
     let performancePercentage = ((playerScore - minScore) / (maxScore - minScore)) * 100;

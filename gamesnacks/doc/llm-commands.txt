@@ -124,3 +124,7 @@ Only display the changed code.
 
 On the levels page, show the two buttons above the levels.
 Only display the changed code.
+
+The cancel button will display the level page.
+It should show the current level group the player is playing in.
+Only display the changed code.
