@@ -72,3 +72,13 @@ A level is finished when the player reaches the last row and so that the player 
 If the player has completed the current level with at least two stars, he has the option to go directly to the next level via the continue button.
 Otherwise via a button levels , if this is pressed the level page is shown.
 
+after completing a level with only one star offer a retry of the same level
+
+after completing a level with zero or one star offer a retry of the same level
+
+click on continue to next level does not work anymore, please fix
+
+
+
+
+

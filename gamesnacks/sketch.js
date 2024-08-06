@@ -190,14 +190,21 @@ function drawLevelComplete() {
   textSize(24);
   text("Score: " + playerScore, width / 2, 250);
   
+  // Offer retry if 0 or 1 star
+  if (stars <= 1) {
+    drawButton(width / 2 - 150, 350, 300, 60, "Retry Level");
+  }
+  
+  // Offer continue if 2 or 3 stars
   if (stars >= 2 && currentLevel < levels.length - 1) {
     drawButton(width / 2 - 150, 350, 300, 60, "Continue to Next Level");
   }
+  
   drawButton(width / 2 - 150, 450, 300, 60, "Level Select");
 }
 
 function drawStars(x, y, stars) {
-  const starSpacing = 50;
+  const starSpacing = 50; // Adjust the spacing between stars
   for (let i = 0; i < 3; i++) {
     if (i < stars) {
       fill(255, 215, 0); // Gold color for filled stars
@@ -283,7 +290,18 @@ function mousePressed() {
       gameState = "LEVEL_SELECT";
     }
   } else if (gameState === "LEVEL_COMPLETE") {
-    let stars = levels[currentLevel].stars;
+    let performancePercentage = ((playerScore - minScore) / (maxScore - minScore)) * 100;
+    let stars = Math.min(3, Math.floor(performancePercentage / 50) + 1);
+    
+    // Retry Level (for 0 or 1 star)
+    if (stars <= 1 && 
+        mouseX > width / 2 - 150 && mouseX < width / 2 + 150 &&
+        mouseY > 350 && mouseY < 410) {
+      resetLevel();
+      gameState = "PLAYING";
+    }
+    
+    // Continue to Next Level (for 2 or 3 stars)
     if (stars >= 2 && currentLevel < levels.length - 1 &&
         mouseX > width / 2 - 150 && mouseX < width / 2 + 150 &&
         mouseY > 350 && mouseY < 410) {
@@ -291,6 +309,8 @@ function mousePressed() {
       gameState = "PLAYING";
       initializeGrid();
     }
+    
+    // Level Select
     if (mouseX > width / 2 - 150 && mouseX < width / 2 + 150 &&
         mouseY > 450 && mouseY < 510) {
       gameState = "LEVEL_SELECT";
