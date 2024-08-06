@@ -139,6 +139,7 @@ function drawLevelSelect() {
   let startY = 100;
   let groupSpacing = 20;
   let levelHeight = 60;
+  let overallLevelIndex = 0;
 
   for (let groupIndex = 0; groupIndex < levelGroups.length; groupIndex++) {
     let group = levelGroups[groupIndex];
@@ -161,10 +162,12 @@ function drawLevelSelect() {
       fill(0);
       textSize(18);
       textAlign(LEFT, CENTER);
-      text("Level " + (levelIndex + 1) + " (" + level.cols + "x" + level.rows + ")", width / 2 - 140, y + levelHeight / 2);
+      text("Level " + (overallLevelIndex + 1) + " (" + level.cols + "x" + level.rows + ")", width / 2 - 140, y + levelHeight / 2);
       
       // Draw stars on the right
       drawStars(width / 2 + 100, y + levelHeight / 2, level.stars);
+
+      overallLevelIndex++;
     }
     
     startY += group.length * levelHeight + groupSpacing;
