@@ -90,3 +90,12 @@ on the level page in the list of levels, in each entry show the text on the left
 
 if a level is played again the stars of this level in the level page are not updated, please fix
 
+the existing seven levels are level group one.
+add more levels.
+add this additional levels in seven more groups.
+next level group have for the grid each three columns and the rows count from four to nine.
+next level group have for the grid each four columns and the rows count from five to nine.
+next level group have for the grid each six columns and the rows count from seven to nine.
+next level group have for the grid each seven columns and the rows count from eight to nine.
+next level group have for the grid eight columns and nine rows.
+next level group have for the grid nine columns and nine rows.

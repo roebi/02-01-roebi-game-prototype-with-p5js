@@ -12,8 +12,9 @@ let availableTiles = [];
 let maxScore = 0;
 let minScore = Infinity;
 let currentLevel = 0;
-let gameState = "LEVEL_SELECT"; // LEVEL_SELECT, PLAYING, LEVEL_COMPLETE
+let gameState = "LEVEL_SELECT";
 let levels = [];
+let levelGroups = [];
 
 function setup() {
   createCanvas(720, 1280);
@@ -21,14 +22,55 @@ function setup() {
 }
 
 function initializeLevels() {
+  // Group 1: 2 columns, 3-9 rows
+  let group1 = [];
   for (let i = 3; i <= 9; i++) {
-    levels.push({
-      cols: 2,
-      rows: i,
-      highScore: 0,
-      stars: 0,
-      unlocked: i === 3
-    });
+    group1.push({ cols: 2, rows: i, highScore: 0, stars: 0, unlocked: i === 3 });
+  }
+  levelGroups.push(group1);
+
+  // Group 2: 3 columns, 4-9 rows
+  let group2 = [];
+  for (let i = 4; i <= 9; i++) {
+    group2.push({ cols: 3, rows: i, highScore: 0, stars: 0, unlocked: i === 4 });
+  }
+  levelGroups.push(group2);
+
+  // Group 3: 4 columns, 5-9 rows
+  let group3 = [];
+  for (let i = 5; i <= 9; i++) {
+    group3.push({ cols: 4, rows: i, highScore: 0, stars: 0, unlocked: i === 5 });
+  }
+  levelGroups.push(group3);
+
+  // Group 4: 6 columns, 7-9 rows
+  let group4 = [];
+  for (let i = 7; i <= 9; i++) {
+    group4.push({ cols: 6, rows: i, highScore: 0, stars: 0, unlocked: i === 7 });
+  }
+  levelGroups.push(group4);
+
+  // Group 5: 7 columns, 8-9 rows
+  let group5 = [];
+  for (let i = 8; i <= 9; i++) {
+    group5.push({ cols: 7, rows: i, highScore: 0, stars: 0, unlocked: i === 8 });
+  }
+  levelGroups.push(group5);
+
+  // Group 6: 8 columns, 9 rows
+  let group6 = [{ cols: 8, rows: 9, highScore: 0, stars: 0, unlocked: true }];
+  levelGroups.push(group6);
+
+  // Group 7: 9 columns, 9 rows
+  let group7 = [{ cols: 9, rows: 9, highScore: 0, stars: 0, unlocked: true }];
+  levelGroups.push(group7);
+
+  // Flatten the groups into a single array
+  levels = levelGroups.flat();
+
+  // Unlock the first level of each group
+  for (let i = 0; i < levelGroups.length; i++) {
+    levelGroups[i][0].unlocked = true;
   }
 }
 
@@ -92,21 +134,40 @@ function drawLevelSelect() {
   textSize(32);
   fill(0);
   textAlign(CENTER, TOP);
-  text("Select Level", width / 2, 30); // Title position
-  
-  // Adjusted position for the levels list to be at the top
-  for (let i = levels.length - 1; i >= 0; i--) {
-    let y = 100 + (levels.length - 1 - i) * 120; // Start from y = 100
-    fill(levels[i].unlocked ? 200 : 100);
-    rect(width / 2 - 150, y, 300, 100, 10);
+  text("Select Level", width / 2, 30);
+
+  let startY = 100;
+  let groupSpacing = 20;
+  let levelHeight = 60;
+
+  for (let groupIndex = 0; groupIndex < levelGroups.length; groupIndex++) {
+    let group = levelGroups[groupIndex];
     
+    // Draw group label
     fill(0);
-    textSize(24);
+    textSize(20);
     textAlign(LEFT, CENTER);
-    text("Level " + (i + 1), width / 2 - 70, y + 30); // Level text on the left
+    text("Group " + (groupIndex + 1), width / 2 - 150, startY);
     
-    // Draw stars on the right
-    drawStars(width / 2 + 50, y + 60, levels[i].stars); // Adjusted Y position for stars
+    startY += 30; // Space after group label
+
+    for (let levelIndex = 0; levelIndex < group.length; levelIndex++) {
+      let level = group[levelIndex];
+      let y = startY + levelIndex * levelHeight;
+      
+      fill(level.unlocked ? 200 : 100);
+      rect(width / 2 - 150, y, 300, levelHeight - 5, 10);
+      
+      fill(0);
+      textSize(18);
+      textAlign(LEFT, CENTER);
+      text("Level " + (levelIndex + 1) + " (" + level.cols + "x" + level.rows + ")", width / 2 - 140, y + levelHeight / 2);
+      
+      // Draw stars on the right
+      drawStars(width / 2 + 100, y + levelHeight / 2, level.stars);
+    }
+    
+    startY += group.length * levelHeight + groupSpacing;
   }
 }
 
@@ -249,15 +310,26 @@ function drawButton(x, y, w, h, label) {
 
 function mousePressed() {
   if (gameState === "LEVEL_SELECT") {
-    for (let i = levels.length - 1; i >= 0; i--) {
-      let y = 100 + (levels.length - 1 - i) * 120; // Adjusted position for levels
-      if (mouseX > width / 2 - 150 && mouseX < width / 2 + 150 &&
-          mouseY > y && mouseY < y + 100 && levels[i].unlocked) {
-        currentLevel = i;
-        gameState = "PLAYING";
-        initializeGrid();
-        break;
+    let startY = 100;
+    let groupSpacing = 20;
+    let levelHeight = 60;
+
+    for (let groupIndex = 0; groupIndex < levelGroups.length; groupIndex++) {
+      let group = levelGroups[groupIndex];
+      startY += 30; // Space for group label
+
+      for (let levelIndex = 0; levelIndex < group.length; levelIndex++) {
+        let y = startY + levelIndex * levelHeight;
+        if (mouseX > width / 2 - 150 && mouseX < width / 2 + 150 &&
+            mouseY > y && mouseY < y + levelHeight - 5 && group[levelIndex].unlocked) {
+          currentLevel = levelGroups.slice(0, groupIndex).reduce((acc, g) => acc + g.length, 0) + levelIndex;
+          gameState = "PLAYING";
+          initializeGrid();
+          return;
+        }
       }
+      
+      startY += group.length * levelHeight + groupSpacing;
     }
   } else if (gameState === "PLAYING") {
     if (mouseX >= leftMargin && mouseX <= leftMargin + boardSize && mouseY >= 60 && mouseY <= 60 + boardSize) {
