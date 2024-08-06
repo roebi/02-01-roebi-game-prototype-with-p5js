@@ -144,7 +144,11 @@ function drawLevelSelect() {
   textAlign(CENTER, TOP);
   text("Select Level - Group " + (currentGroup + 1), width / 2, 30);
 
-  let startY = 100;
+  // Add navigation buttons for groups above the levels
+  drawButton(width / 2 - 150, 70, 140, 60, "Previous Group");
+  drawButton(width / 2 + 10, 70, 140, 60, "Next Group");
+
+  let startY = 150; // Adjusted to make room for buttons
   let levelHeight = 60;
 
   let group = levelGroups[currentGroup];
@@ -164,10 +168,6 @@ function drawLevelSelect() {
     // Draw stars on the right
     drawStars(width / 2 + 100, y + levelHeight / 2, level.stars);
   }
-
-  // Add navigation buttons for groups
-  drawButton(width / 2 - 150, height - 100, 140, 60, "Previous Group");
-  drawButton(width / 2 + 10, height - 100, 140, 60, "Next Group");
 }
 
 function drawGame() {
@@ -309,7 +309,18 @@ function drawButton(x, y, w, h, label) {
 
 function mousePressed() {
   if (gameState === "LEVEL_SELECT") {
-    let startY = 100;
+    // Check for group navigation button clicks
+    if (mouseY > 70 && mouseY < 130) {
+      if (mouseX > width / 2 - 150 && mouseX < width / 2 - 10) {
+        currentGroup = max(0, currentGroup - 1);
+        return;
+      } else if (mouseX > width / 2 + 10 && mouseX < width / 2 + 150) {
+        currentGroup = min(levelGroups.length - 1, currentGroup + 1);
+        return;
+      }
+    }
+
+    let startY = 150; // Adjusted to match new level start position
     let levelHeight = 60;
 
     let group = levelGroups[currentGroup];
@@ -321,15 +332,6 @@ function mousePressed() {
         gameState = "PLAYING";
         initializeGrid();
         return;
-      }
-    }
-
-    // Check for group navigation button clicks
-    if (mouseY > height - 100 && mouseY < height - 40) {
-      if (mouseX > width / 2 - 150 && mouseX < width / 2 - 10) {
-        currentGroup = max(0, currentGroup - 1);
-      } else if (mouseX > width / 2 + 10 && mouseX < width / 2 + 150) {
-        currentGroup = min(levelGroups.length - 1, currentGroup + 1);
       }
     }
   } else if (gameState === "PLAYING") {

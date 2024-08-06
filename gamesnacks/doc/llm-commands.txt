@@ -121,3 +121,6 @@ Only display the changed code.
 On the levels side, add another level group. This comes after level group three.
 It has columns five and columns six to nine. Adjust the following level groups accordingly.
 Only display the changed code.
+
+On the levels page, show the two buttons above the levels.
+Only display the changed code.
