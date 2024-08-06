@@ -60,7 +60,7 @@ place the three stars a little further apart, they overlap
 replace the reset score button with a retry button.
 When pressed, this restart this level without changing the tile values.
 
-add a game level system. show all the available levels with its three stars in a own level page an.
+add a game level system. show all the available levels with its three stars in a own level page.
 this levels have for the grid each two columns and the rows count from three to nine.
 start the game with showing the level page.
 show the levels as a list. start with first level on bottom.
