@@ -99,3 +99,9 @@ next level group have for the grid each six columns and the rows count from seve
 next level group have for the grid each seven columns and the rows count from eight to nine.
 next level group have for the grid eight columns and nine rows.
 next level group have for the grid nine columns and nine rows.
+
+please show the whole code
+
+please show all the lines of the code. This is in total round about 400 lines.
+
+please show the last hundred lines of code. I believe you have a line limit of three hundred and fifty-seven.
