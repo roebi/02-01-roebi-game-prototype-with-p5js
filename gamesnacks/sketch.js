@@ -99,10 +99,14 @@ function drawLevelSelect() {
     let y = 100 + (levels.length - 1 - i) * 120; // Start from y = 100
     fill(levels[i].unlocked ? 200 : 100);
     rect(width / 2 - 150, y, 300, 100, 10);
+    
     fill(0);
     textSize(24);
-    text("Level " + (i + 1), width / 2, y + 30);
-    drawStars(width / 2 - 60, y + 60, levels[i].stars);
+    textAlign(LEFT, CENTER);
+    text("Level " + (i + 1), width / 2 - 70, y + 30); // Level text on the left
+    
+    // Draw stars on the right
+    drawStars(width / 2 + 50, y + 60, levels[i].stars); // Adjusted Y position for stars
   }
 }
 
@@ -185,6 +189,9 @@ function drawLevelComplete() {
   
   let performancePercentage = ((playerScore - minScore) / (maxScore - minScore)) * 100;
   let stars = Math.min(3, Math.floor(performancePercentage / 50) + 1);
+  
+  // Update the stars for the current level
+  levels[currentLevel].stars = max(levels[currentLevel].stars, stars);
   
   drawStars(width / 2 - 75, 150, stars);
   

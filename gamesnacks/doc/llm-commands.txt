@@ -82,3 +82,11 @@ on the level page reduce the distance between title and the list of levels
 
 on the level page show the list of level just under the title
 
+on the level page in the list of levels, in each entry the text and the stars overlap, please fix
+
+on the level page in the list of levels, in each entry the text and the stars still overlap, please fix
+
+on the level page in the list of levels, in each entry show the text on the left and show the stars on the right
+
+if a level is played again the stars of this level in the level page are not updated, please fix
+
