@@ -15,6 +15,7 @@ let currentLevel = 0;
 let gameState = "LEVEL_SELECT";
 let levels = [];
 let levelGroups = [];
+let currentGroup = 0;
 
 function setup() {
   createCanvas(720, 1280);
@@ -43,27 +44,34 @@ function initializeLevels() {
   }
   levelGroups.push(group3);
 
-  // Group 4: 6 columns, 7-9 rows
+  // New Group 4: 5 columns, 6-9 rows
   let group4 = [];
-  for (let i = 7; i <= 9; i++) {
-    group4.push({ cols: 6, rows: i, highScore: 0, stars: 0, unlocked: i === 7 });
+  for (let i = 6; i <= 9; i++) {
+    group4.push({ cols: 5, rows: i, highScore: 0, stars: 0, unlocked: i === 6 });
   }
   levelGroups.push(group4);
 
-  // Group 5: 7 columns, 8-9 rows
+  // Updated Group 5 (previously 4): 6 columns, 7-9 rows
   let group5 = [];
-  for (let i = 8; i <= 9; i++) {
-    group5.push({ cols: 7, rows: i, highScore: 0, stars: 0, unlocked: i === 8 });
+  for (let i = 7; i <= 9; i++) {
+    group5.push({ cols: 6, rows: i, highScore: 0, stars: 0, unlocked: i === 7 });
   }
   levelGroups.push(group5);
 
-  // Group 6: 8 columns, 9 rows
-  let group6 = [{ cols: 8, rows: 9, highScore: 0, stars: 0, unlocked: true }];
+  // Updated Group 6 (previously 5): 7 columns, 8-9 rows
+  let group6 = [];
+  for (let i = 8; i <= 9; i++) {
+    group6.push({ cols: 7, rows: i, highScore: 0, stars: 0, unlocked: i === 8 });
+  }
   levelGroups.push(group6);
 
-  // Group 7: 9 columns, 9 rows
-  let group7 = [{ cols: 9, rows: 9, highScore: 0, stars: 0, unlocked: true }];
+  // Updated Group 7 (previously 6): 8 columns, 9 rows
+  let group7 = [{ cols: 8, rows: 9, highScore: 0, stars: 0, unlocked: true }];
   levelGroups.push(group7);
+
+  // Updated Group 8 (previously 7): 9 columns, 9 rows
+  let group8 = [{ cols: 9, rows: 9, highScore: 0, stars: 0, unlocked: true }];
+  levelGroups.push(group8);
 
   // Flatten the groups into a single array
   levels = levelGroups.flat();
@@ -134,44 +142,32 @@ function drawLevelSelect() {
   textSize(32);
   fill(0);
   textAlign(CENTER, TOP);
-  text("Select Level", width / 2, 30);
+  text("Select Level - Group " + (currentGroup + 1), width / 2, 30);
 
   let startY = 100;
-  let groupSpacing = 20;
   let levelHeight = 60;
-  let overallLevelIndex = 0;
 
-  for (let groupIndex = 0; groupIndex < levelGroups.length; groupIndex++) {
-    let group = levelGroups[groupIndex];
+  let group = levelGroups[currentGroup];
+  
+  for (let levelIndex = 0; levelIndex < group.length; levelIndex++) {
+    let level = group[levelIndex];
+    let y = startY + levelIndex * levelHeight;
     
-    // Draw group label
+    fill(level.unlocked ? 200 : 100);
+    rect(width / 2 - 150, y, 300, levelHeight - 5, 10);
+    
     fill(0);
-    textSize(20);
+    textSize(18);
     textAlign(LEFT, CENTER);
-    text("Group " + (groupIndex + 1), width / 2 - 150, startY);
+    text("Level " + (currentGroup + 1) + "-" + (levelIndex + 1) + " (" + level.cols + "x" + level.rows + ")", width / 2 - 140, y + levelHeight / 2);
     
-    startY += 30; // Space after group label
-
-    for (let levelIndex = 0; levelIndex < group.length; levelIndex++) {
-      let level = group[levelIndex];
-      let y = startY + levelIndex * levelHeight;
-      
-      fill(level.unlocked ? 200 : 100);
-      rect(width / 2 - 150, y, 300, levelHeight - 5, 10);
-      
-      fill(0);
-      textSize(18);
-      textAlign(LEFT, CENTER);
-      text("Level " + (overallLevelIndex + 1) + " (" + level.cols + "x" + level.rows + ")", width / 2 - 140, y + levelHeight / 2);
-      
-      // Draw stars on the right
-      drawStars(width / 2 + 100, y + levelHeight / 2, level.stars);
-
-      overallLevelIndex++;
-    }
-    
-    startY += group.length * levelHeight + groupSpacing;
+    // Draw stars on the right
+    drawStars(width / 2 + 100, y + levelHeight / 2, level.stars);
   }
+
+  // Add navigation buttons for groups
+  drawButton(width / 2 - 150, height - 100, 140, 60, "Previous Group");
+  drawButton(width / 2 + 10, height - 100, 140, 60, "Next Group");
 }
 
 function drawGame() {
@@ -314,25 +310,27 @@ function drawButton(x, y, w, h, label) {
 function mousePressed() {
   if (gameState === "LEVEL_SELECT") {
     let startY = 100;
-    let groupSpacing = 20;
     let levelHeight = 60;
 
-    for (let groupIndex = 0; groupIndex < levelGroups.length; groupIndex++) {
-      let group = levelGroups[groupIndex];
-      startY += 30; // Space for group label
-
-      for (let levelIndex = 0; levelIndex < group.length; levelIndex++) {
-        let y = startY + levelIndex * levelHeight;
-        if (mouseX > width / 2 - 150 && mouseX < width / 2 + 150 &&
-            mouseY > y && mouseY < y + levelHeight - 5 && group[levelIndex].unlocked) {
-          currentLevel = levelGroups.slice(0, groupIndex).reduce((acc, g) => acc + g.length, 0) + levelIndex;
-          gameState = "PLAYING";
-          initializeGrid();
-          return;
-        }
+    let group = levelGroups[currentGroup];
+    for (let levelIndex = 0; levelIndex < group.length; levelIndex++) {
+      let y = startY + levelIndex * levelHeight;
+      if (mouseX > width / 2 - 150 && mouseX < width / 2 + 150 &&
+          mouseY > y && mouseY < y + levelHeight - 5 && group[levelIndex].unlocked) {
+        currentLevel = levelGroups.slice(0, currentGroup).reduce((acc, g) => acc + g.length, 0) + levelIndex;
+        gameState = "PLAYING";
+        initializeGrid();
+        return;
       }
-      
-      startY += group.length * levelHeight + groupSpacing;
+    }
+
+    // Check for group navigation button clicks
+    if (mouseY > height - 100 && mouseY < height - 40) {
+      if (mouseX > width / 2 - 150 && mouseX < width / 2 - 10) {
+        currentGroup = max(0, currentGroup - 1);
+      } else if (mouseX > width / 2 + 10 && mouseX < width / 2 + 150) {
+        currentGroup = min(levelGroups.length - 1, currentGroup + 1);
+      }
     }
   } else if (gameState === "PLAYING") {
     if (mouseX >= leftMargin && mouseX <= leftMargin + boardSize && mouseY >= 60 && mouseY <= 60 + boardSize) {

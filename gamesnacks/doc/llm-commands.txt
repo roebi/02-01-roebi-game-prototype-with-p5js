@@ -110,3 +110,14 @@ authors remark: copy the first 357 lines and add then from the last 100 lines th
 
 in the level page, show a consecutive number for each level, regardless of the level group.
 show only the changed code.
+
+in the level page, show only the actual level group and is level.
+show only the changed code.
+
+There is not enough space on the level page to display all level groups and their levels.
+Therefore, only display the current level group and its level in which the player is playing.
+Only display the changed code.
+
+On the levels side, add another level group. This comes after level group three.
+It has columns five and columns six to nine. Adjust the following level groups accordingly.
+Only display the changed code.
