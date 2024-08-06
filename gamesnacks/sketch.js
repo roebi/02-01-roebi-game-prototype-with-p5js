@@ -92,10 +92,11 @@ function drawLevelSelect() {
   textSize(32);
   fill(0);
   textAlign(CENTER, TOP);
-  text("Select Level", width / 2, 50);
+  text("Select Level", width / 2, 30); // Title position
   
+  // Adjusted position for the levels list to be at the top
   for (let i = levels.length - 1; i >= 0; i--) {
-    let y = height - 100 - (levels.length - 1 - i) * 120;
+    let y = 100 + (levels.length - 1 - i) * 120; // Start from y = 100
     fill(levels[i].unlocked ? 200 : 100);
     rect(width / 2 - 150, y, 300, 100, 10);
     fill(0);
@@ -242,7 +243,7 @@ function drawButton(x, y, w, h, label) {
 function mousePressed() {
   if (gameState === "LEVEL_SELECT") {
     for (let i = levels.length - 1; i >= 0; i--) {
-      let y = height - 100 - (levels.length - 1 - i) * 120;
+      let y = 100 + (levels.length - 1 - i) * 120; // Adjusted position for levels
       if (mouseX > width / 2 - 150 && mouseX < width / 2 + 150 &&
           mouseY > y && mouseY < y + 100 && levels[i].unlocked) {
         currentLevel = i;

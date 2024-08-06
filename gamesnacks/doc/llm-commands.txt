@@ -78,7 +78,7 @@ after completing a level with zero or one star offer a retry of the same level
 
 click on continue to next level does not work anymore, please fix
 
+on the level page reduce the distance between title and the list of levels
 
-
-
+on the level page show the list of level just under the title
 
