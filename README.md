@@ -62,7 +62,7 @@ Don't be surprised that there is already code there. More on that later.
 
 WRITE more about ...
 
-# Page Link
+# Github Project
 
 https://github.com/roebi/02-02-roebi-game-prototype-with-p5js
 
