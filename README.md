@@ -80,7 +80,7 @@ and yes it is a 3-star Level Game
 
 https://roebi.github.io/02-02-roebi-game-prototype-with-p5js/
 
-# knowm bugs
+# known bugs
 
 there are some miner bugs, but try by yourself ...
 
