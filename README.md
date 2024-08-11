@@ -127,7 +127,55 @@ git commit the changes in sketch.js with llm-commands.txt
 
 ## chapter five - evolving requirements
 
-TODO write more ...
+in summary there are only 39 prompts
+
+in summary at the end there was in sketch.js 415 lines.
+
+### evolving requirements
+
+layout
+
+code in p5 js
+
+add a grid with random numbers
+
+score calculation
+
+reuse existing function buttons with real used functions
+
+add some layout : add some elements around the grid
+
+add implement game mechanics, i.e. how to play with the game
+
+restrict moves
+
+add highscore (was later removed)
+
+add rate the player's performance as a three stars rating
+
+add a game level system: show all levels with its three stars in a own level page.
+
+( I was impressed how this was understood and implemented )
+
+determining the game flow between level side and game side
+
+add more levels and introduction of 8 level groups (based on number of columns in the grid)
+
+change level page to show only active level group
+
+add a missing level group (change of a existing requirement)
+
+## chapter six - result
+
+TODO: fill in
+
+## chapter seven - learnings
+
+TODO: fill in
+
+## chapter eight - next steps
+
+TODO: fill in
 
 # Github Project
 

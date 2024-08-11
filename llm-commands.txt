@@ -88,7 +88,10 @@ on the level page in the list of levels, in each entry the text and the stars st
 
 on the level page in the list of levels, in each entry show the text on the left and show the stars on the right
 
+authors remark: from here i added all the real prompts with 'show only the changed code' if not already added to all the chat questions, because there is a output limit of 357 lines.
+
 if a level is played again the stars of this level in the level page are not updated, please fix
+show only the changed code.
 
 the existing seven levels are level group one.
 add more levels.
@@ -99,14 +102,17 @@ next level group have for the grid each six columns and the rows count from seve
 next level group have for the grid each seven columns and the rows count from eight to nine.
 next level group have for the grid eight columns and nine rows.
 next level group have for the grid nine columns and nine rows.
+show only the changed code.
 
-please show the whole code
+authors remark: no more used: please show the whole code
 
-please show all the lines of the code. This is in total round about 400 lines.
+authors remark: no more used: please show all the lines of the code. This is in total round about 400 lines.
 
-please show the last hundred lines of code. I believe you have a line limit of three hundred and fifty-seven.
+authors remark: no more used: please show the last hundred lines of code. I believe you have a line limit of three hundred and fifty-seven.
 
-authors remark: copy the first 357 lines and add then from the last 100 lines the both last functions drawButton and mousePressed is the whole code, which is current 400 lines.
+authors remark: no more used: copy the first 357 lines and add then from the last 100 lines the both last functions drawButton and mousePressed is the whole code, which is current 400 lines.
+
+authors remark: from here all the reals prompts already hat this 'show only the changed code.' line
 
 in the level page, show a consecutive number for each level, regardless of the level group.
 show only the changed code.
