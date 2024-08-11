@@ -6,6 +6,8 @@ This is a story about create a html game prototype by using perplexity.ai as a p
 
 # the story
 
+remark: chapter seven is learnings, if you would like to skip some chapters.
+
 ## chapter one - the beginning
 
 There was this dream of creating a simple game based on HTML and making it available on the web.
@@ -167,15 +169,41 @@ add a missing level group (change of a existing requirement)
 
 ## chapter six - result
 
-TODO: fill in
+the result is a functioning game prototype
+
+see link below to play it
+
+yes there are software errors
+
+see it as a software tester to find out which ones are
+
+my goals were fulfilled:
+
+- creating a working game prototype
+
+- publish a working game prototype
+
+- first experience of how code can be generated and extended via an ai chat
+
+- try a new development cycle by using an ai chat
 
 ## chapter seven - learnings
 
-TODO: fill in
+This Development cycle: Copying and pasting from ai chat to a file is not efficient
+
+( I already know that there is something better, keyword aider.chat )
+
+learn about ouptut limits
+
+not tried here: creating automated software tests
+
+This Development cycle: was only work with one source code file
+
+This Development cycle: excludes version management (i.e. git)
 
 ## chapter eight - next steps
 
-TODO: fill in
+get experience with aider.chat
 
 # Github Project
 
