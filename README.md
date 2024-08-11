@@ -58,9 +58,76 @@ decision: i go for p5.js and yes there is a online editor see https://editor.p5j
 
 Don't be surprised that there is already code there. More on that later.
 
-## chapter three - this ai thing
+## chapter three - the basic idea
 
-WRITE more about ...
+develop an easy-to-implement game idea with numbers
+
+use zero graphics
+
+use only basic drawing elements, e.g. text and lines
+
+uses one of the available AI chats in the role of the software developer and explainer
+
+I have taken on different roles: 
+
+game idea developer
+
+requirement definer
+
+Software developer to understand the evolving program
+
+Software tester to test the evolving program
+
+## chapter four - this ai thing
+
+for this i decide to use perplexity.ai in a chat
+
+i was use Visual Studio Code in a git project
+
+### the Development cycle was following
+
+(not optimal , i know now, but for this first thing it was working for me)
+
+in the ai chat: ask about code in p5 js
+
+copy the whole code answer into my evolving file sketch.js
+
+from a certain size of the response, the entire code was no longer printed completely
+
+and indeed there is a line limit of 357
+
+from this point, i added 'show only the changed code'
+
+This resulted in the ai ​​chat responses completely returning the changed functions.
+
+them my copy work changed to: copy from the code answer the changed functions over the existing functions into my evolving file sketch.js
+
+that works, but was not efficient
+
+my thought on this: there are certainly better workflows
+
+start the local webserver with start-http-server.bsh
+
+open the browser with this localhost address
+
+test the new 'functionality'
+
+based on this
+
+- ask for more code in the form of requirements
+- ask for a fix of a bug, i.e. 'requirement x' does not work anymore, please fix
+
+- optional correct your previous requirements if:
+  - they were incorrect or incomplete
+  - the ai-chat interpreted them unexpectedly
+
+add the my ai-chat prompts into file llm-commands.txt
+
+git commit the changes in sketch.js with llm-commands.txt
+
+## chapter five - evolving requirements
+
+TODO write more ...
 
 # Github Project
 
